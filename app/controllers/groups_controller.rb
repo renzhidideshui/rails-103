@@ -1,5 +1,7 @@
 class GroupsController < ApplicationController
-  before_action :authenticate_user! , only: [:new, :create]
+  before_action :authenticate_user! , only: [:new, :create, :edit, :update, :destroy]
+  before_action :find_group_and_check_permission, only: [:edit, :update, :destroy]
+
   def index
     @groups = Group.all
   end
@@ -9,8 +11,8 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @group = Group.find(params[:id])
   end
+
 
   def new
     @group = Group.new
@@ -28,10 +30,7 @@ class GroupsController < ApplicationController
   end
 
   def update
-    @group = Group.find(params[:id])
-
     if @group.update(group_params)
-
        redirect_to groups_path, notice: "欢迎你亲爱的伙伴！"
     else
       render :edit
@@ -39,10 +38,8 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    @group = Group.find(params[:id])
     @group.destroy
-    flash[:alert] = "审慎的价值"
-    redirect_to groups_path
+    redirect_to groups_path,alert: "审慎的价值"
   end
 
   private
