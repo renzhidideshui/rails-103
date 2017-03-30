@@ -40,6 +40,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    @group = Group.find(params[:id])
     @group.destroy
     redirect_to groups_path,alert: "审慎的价值"
   end
@@ -83,11 +84,6 @@ class GroupsController < ApplicationController
 
   def group_params
     params.require(:group).permit(:title, :description)
-  end
-
-
-  def group_params
-     params.require(:group).permit(:title, :description)
   end
 
 end
